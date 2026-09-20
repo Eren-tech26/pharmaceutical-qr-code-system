@@ -13,10 +13,11 @@ export function App() {
       <header className="sticky top-0 z-40 bg-white border-b-2 border-green-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3 h-16 sm:h-20">
+            {/* SVERI COBP emblem (crest only, cropped from the full logo for small slots) */}
             <img
-              src="/logo.svg"
-              alt="PharmaQR"
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl shadow-sm shrink-0"
+              src="/images/sveri-cobp-emblem.png"
+              alt="SVERI COBP"
+              className="w-10 h-10 sm:w-12 sm:h-12 object-contain shrink-0"
             />
             <div>
               <span className="text-lg sm:text-xl font-black tracking-tight text-black leading-tight block">
@@ -46,6 +47,12 @@ export function App() {
                 Tablets QR opens the full Tablets guide; scanning Injections opens Injections.
               </p>
             </div>
+            {/* Full SVERI COBP logo with wordmark, shown on the study-guide intro card */}
+            <img
+              src="/images/sveri-cobp-logo.png"
+              alt="SVERI COBP"
+              className="h-14 w-auto object-contain shrink-0 self-center sm:ml-auto sm:h-16"
+            />
           </div>
         )}
 
