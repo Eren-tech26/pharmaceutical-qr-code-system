@@ -1,7 +1,9 @@
 name: Fetch logo asset
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - arena/01a0bdab-pharmaceutical-qr-code-system
 
 permissions:
   contents: write
@@ -10,7 +12,7 @@ jobs:
   fetch-logo:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout session branch
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Download logo from ImgBB
@@ -26,5 +28,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets/logo_source.png
-          git commit -m "chore: add logo source asset" || exit 0
+          git commit -m "chore: add logo source asset [skip ci]" || exit 0
           git push
