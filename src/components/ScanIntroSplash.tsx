@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { QrCode, Pill, ArrowRight } from 'lucide-react';
+import { QrCode, ArrowRight, ScanLine } from 'lucide-react';
 
 interface ScanIntroSplashProps {
   formName: string;
@@ -9,9 +9,9 @@ interface ScanIntroSplashProps {
 }
 
 /**
- * Full-screen white intro shown immediately after a QR code is scanned.
- * Displays the PharmaQR logo/brand on a clean white background, then
- * transitions into the dosage form information.
+ * Full-screen frosted-glass intro shown immediately after a QR code is scanned.
+ * The aurora backdrop glows through the blur while the PharmaQR brand springs
+ * into place, then everything melts away into the dosage form information.
  */
 export const ScanIntroSplash: React.FC<ScanIntroSplashProps> = ({
   formName,
@@ -22,11 +22,9 @@ export const ScanIntroSplash: React.FC<ScanIntroSplashProps> = ({
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Entrance animation frame
     const t = window.setTimeout(() => setMounted(true), 20);
-    // Auto-advance
     const fadeTimer = window.setTimeout(() => setFadingOut(true), autoAdvanceMs);
-    const doneTimer = window.setTimeout(() => onContinue(), autoAdvanceMs + 450);
+    const doneTimer = window.setTimeout(() => onContinue(), autoAdvanceMs + 500);
     return () => {
       window.clearTimeout(t);
       window.clearTimeout(fadeTimer);
@@ -40,65 +38,92 @@ export const ScanIntroSplash: React.FC<ScanIntroSplashProps> = ({
       aria-live="polite"
       onClick={() => {
         setFadingOut(true);
-        window.setTimeout(() => onContinue(), 300);
+        window.setTimeout(() => onContinue(), 350);
       }}
-      className={`fixed inset-0 z-50 bg-white flex flex-col items-center justify-center px-6 cursor-pointer transition-opacity duration-500 ${
-        fadingOut ? 'opacity-0' : mounted ? 'opacity-100' : 'opacity-0'
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center px-6 cursor-pointer transition-all duration-500 [transition-timing-function:var(--ease-apple)] ${
+        fadingOut ? 'opacity-0 scale-[1.04]' : mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.98]'
       }`}
-      style={{ backgroundColor: '#ffffff' }}
+      style={{
+        background:
+          'radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.72), rgba(238,244,242,0.6) 55%, rgba(233,241,244,0.65))',
+        WebkitBackdropFilter: 'blur(40px) saturate(1.8)',
+        backdropFilter: 'blur(40px) saturate(1.8)'
+      }}
     >
+      {/* Ambient glows behind the logo */}
+      <div
+        aria-hidden
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vmin] h-[60vmin] rounded-full animate-glow-pulse pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(circle, rgba(52, 211, 153, 0.3), rgba(56, 189, 248, 0.12) 55%, transparent 72%)',
+          filter: 'blur(40px)'
+        }}
+      />
+
       {/* Logo block */}
       <div
-        className={`flex flex-col items-center transition-all duration-700 ease-out ${
-          mounted ? 'scale-100 translate-y-0' : 'scale-90 translate-y-3'
+        className={`relative flex flex-col items-center transition-all duration-1000 [transition-timing-function:var(--ease-out-expo)] ${
+          mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
         }`}
       >
-        <div className="relative">
-          {/* Subtle green glow behind logo */}
-          <div
-            className="absolute inset-0 rounded-[32px] blur-2xl opacity-30"
-            style={{ background: 'radial-gradient(circle, #22c55e 0%, transparent 70%)' }}
-          />
-          <img
-            src="/images/sveri-cobp.png"
-            alt="SVERI CO&amp;P"
-            className="relative w-52 h-52 sm:w-64 sm:h-64 object-contain drop-shadow-xl"
-          />
+        <div className="animate-splash-pop">
+          <div className="glass rounded-[2.5rem] p-8 relative">
+            <img
+              src="/images/sveri-cobp.png"
+              alt="SVERI CO&P"
+              className="relative w-44 h-44 sm:w-56 sm:h-56 object-contain drop-shadow-xl"
+            />
+            {/* Specular sweep across the glass tile */}
+            <div
+              aria-hidden
+              className="absolute inset-0 overflow-hidden rounded-[2.5rem] pointer-events-none"
+            >
+              <div className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-sheen" />
+            </div>
+          </div>
         </div>
 
-        <h1 className="mt-6 text-3xl sm:text-5xl font-black tracking-tight text-black text-center">
-          Pharma<span className="text-green-600">QR</span>
+        <h1 className="mt-8 text-4xl sm:text-6xl font-bold tracking-tighter text-slate-900 text-center">
+          Pharma<span className="text-gradient">QR</span>
         </h1>
-        <p className="mt-2 text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-green-700">
+        <p className="mt-2.5 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.32em] text-emerald-700">
           Pharmaceutical Dosage Guide
         </p>
 
-        {/* Loading/scanned indicator */}
-        <div className="mt-8 flex items-center gap-3 bg-green-50 border border-green-200 rounded-full px-5 py-2.5">
-          <QrCode className="w-4 h-4 text-green-700" />
-          <Pill className="w-4 h-4 text-green-700" />
-          <span className="text-sm font-bold text-green-900">
-            Loading <span className="text-black">{formName}</span>…
+        {/* Scanned indicator */}
+        <div className="mt-9 flex items-center gap-3 glass rounded-full px-6 py-3">
+          <ScanLine className="w-4 h-4 text-emerald-600" />
+          <span className="text-sm font-semibold text-slate-700">
+            Opening <span className="font-bold text-slate-900">{formName}</span>
+          </span>
+          <span className="flex gap-1.5">
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"
+                style={{ animationDelay: `${i * 220}ms` }}
+              />
+            ))}
           </span>
         </div>
 
         {/* Progress bar */}
-        <div className="mt-6 w-56 sm:w-64 h-1 bg-gray-100 rounded-full overflow-hidden">
+        <div className="mt-7 w-60 sm:w-72 h-1.5 bg-white/50 rounded-full overflow-hidden shadow-inner">
           <div
-            className="h-full bg-gradient-to-r from-green-500 to-green-700 rounded-full origin-left"
-            style={{
-              animation: `pharmaqr-progress ${autoAdvanceMs}ms linear forwards`
-            }}
+            className="h-full bg-gradient-to-r from-emerald-400 via-teal-500 to-sky-500 rounded-full origin-left shadow-sm shadow-emerald-500/40"
+            style={{ animation: `pharmaqr-progress ${autoAdvanceMs}ms var(--ease-smooth, cubic-bezier(0.22,1,0.36,1)) forwards` }}
           />
         </div>
       </div>
 
       {/* Footer hint */}
       <div
-        className={`absolute bottom-8 flex items-center gap-2 text-xs text-gray-500 font-medium transition-opacity duration-500 ${
+        className={`absolute bottom-10 flex items-center gap-2 text-xs text-slate-500 font-medium transition-opacity duration-1000 ${
           mounted ? 'opacity-100' : 'opacity-0'
         }`}
       >
+        <QrCode className="w-3.5 h-3.5" />
         <span>Tap anywhere to continue</span>
         <ArrowRight className="w-3.5 h-3.5" />
       </div>
