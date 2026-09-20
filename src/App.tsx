@@ -1,10 +1,10 @@
 import { DosageGuideSection } from './components/DosageGuideSection';
 import { getFormFromUrl } from './utils/pharmaQrEncoder';
-import { GraduationCap, QrCode } from 'lucide-react';
+import { GraduationCap } from 'lucide-react';
 
 export function App() {
   // If the page was opened by scanning a form QR (?form=...), skip the intro banner
-  // and let the guide render that form's information immediately.
+  // and let the guide render that form's information immediately (after the splash).
   const scannedForm = getFormFromUrl();
 
   return (
@@ -13,9 +13,11 @@ export function App() {
       <header className="sticky top-0 z-40 bg-white border-b-2 border-green-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3 h-16 sm:h-20">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-green-600 text-white flex items-center justify-center shadow-sm shrink-0">
-              <QrCode className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.2]" />
-            </div>
+            <img
+              src="/logo.svg"
+              alt="PharmaQR"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl shadow-sm shrink-0"
+            />
             <div>
               <span className="text-lg sm:text-xl font-black tracking-tight text-black leading-tight block">
                 Pharma<span className="text-green-600">QR</span> Student Guide
