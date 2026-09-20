@@ -60,9 +60,9 @@ export const ScanIntroSplash: React.FC<ScanIntroSplashProps> = ({
             style={{ background: 'radial-gradient(circle, #22c55e 0%, transparent 70%)' }}
           />
           <img
-            src="/logo.svg"
-            alt="PharmaQR"
-            className="relative w-32 h-32 sm:w-40 sm:h-40 drop-shadow-xl"
+            src="/images/sveri-cobp.png"
+            alt="SVERI CO&amp;P"
+            className="relative w-52 h-52 sm:w-64 sm:h-64 object-contain drop-shadow-xl"
           />
         </div>
 
