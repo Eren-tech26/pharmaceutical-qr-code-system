@@ -1,0 +1,30 @@
+name: Fetch logo asset
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-logo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout session branch
+        uses: actions/checkout@v4
+
+      - name: Download logo from ImgBB
+        run: |
+          mkdir -p assets
+          curl -fsSL --retry 3 --retry-delay 2 -o assets/logo_source.png "https://i.ibb.co/WpMKHtNV/file-000000002bc08211a30d79b1ff16afaa.png"
+          file assets/logo_source.png
+          sha256sum assets/logo_source.png
+          stat -c '%s bytes' assets/logo_source.png
+
+      - name: Commit and push asset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/logo_source.png
+          git commit -m "chore: add logo source asset" || exit 0
+          git push
