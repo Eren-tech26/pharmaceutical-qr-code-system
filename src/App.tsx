@@ -1,5 +1,7 @@
 import { DosageGuideSection } from './components/DosageGuideSection';
+import { DeveloperInfoCard } from './components/DeveloperInfoCard';
 import { getFormFromUrl } from './utils/pharmaQrEncoder';
+import { DEVELOPER_INFO } from './data/developerInfo';
 import { GraduationCap } from 'lucide-react';
 
 export function App() {
@@ -49,16 +51,28 @@ export function App() {
           </div>
         )}
 
-        <DosageGuideSection />
+        <div className="space-y-6">
+          <DosageGuideSection />
+
+          {/* Developer credit */}
+          <DeveloperInfoCard />
+        </div>
       </main>
 
       {/* Footer */}
       <footer className="mt-auto border-t border-gray-200 bg-white py-5 text-xs text-gray-500 print:hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>
-            <span className="font-black text-green-700">PharmaQR</span> · Pharmacy Student Dosage Form Guide
-          </span>
-          <span>12 Forms · Tablets, Capsules, Syrups, Injections, Ointments, Drops &amp; more</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-2">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span>
+              <span className="font-black text-green-700">PharmaQR</span> · Pharmacy Student Dosage Form Guide
+            </span>
+            <span>12 Forms · Tablets, Capsules, Syrups, Injections, Ointments, Drops &amp; more</span>
+          </div>
+          <div className="flex items-center justify-center sm:justify-start gap-2 pt-2 border-t border-gray-100">
+            <span className="font-black text-gray-700">Developed by {DEVELOPER_INFO.name}</span>
+            <span className="text-gray-400">·</span>
+            <span>{DEVELOPER_INFO.footerCredit}</span>
+          </div>
         </div>
       </footer>
     </div>
