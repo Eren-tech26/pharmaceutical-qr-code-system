@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DosageFormCategory } from '../types/pharmacy';
 import { DOSAGE_FORM_LIST, PHARMACY_DOSSIERS } from '../data/dosageFormsData';
 import { DossierCard } from './DossierCard';
+import { ScanIntroSplash } from './ScanIntroSplash';
 import { getFormFromUrl } from '../utils/pharmaQrEncoder';
 import {
   Search,
@@ -39,6 +40,7 @@ export const DosageGuideSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<DosageFormCategory>('TABLETS');
   const [searchQuery, setSearchQuery] = useState('');
   const [openedFromScan, setOpenedFromScan] = useState(false);
+  const [showSplash, setShowSplash] = useState(false);
 
   // When a QR is scanned it opens this page with ?form=TABLETS — auto-navigate to it.
   useEffect(() => {
@@ -46,6 +48,7 @@ export const DosageGuideSection: React.FC = () => {
     if (fromUrl) {
       setActiveCategory(fromUrl);
       setOpenedFromScan(true);
+      setShowSplash(true);
     }
   }, []);
 
@@ -71,25 +74,34 @@ export const DosageGuideSection: React.FC = () => {
     }
   };
 
-  // SCANNED VIEW — QR opened this page: show the form's info immediately, full width, no QR.
+  // SCANNED VIEW — QR opened this page: show white-background PharmaQR intro first,
+  // then the form's full information.
   if (openedFromScan) {
     return (
-      <div className="space-y-4">
-        <DossierCard dossier={currentDossier} highlightScanned showQr={false} />
+      <>
+        {showSplash && (
+          <ScanIntroSplash
+            formName={currentDossier.shortName}
+            onContinue={() => setShowSplash(false)}
+          />
+        )}
+        <div className={`space-y-4 transition-opacity duration-500 ${showSplash ? 'opacity-0' : 'opacity-100'}`}>
+          <DossierCard dossier={currentDossier} highlightScanned showQr={false} />
 
-        <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <p className="text-xs text-gray-600">
-            You opened <span className="font-bold text-black">{activeCategory}</span> by scanning its QR code.
-          </p>
-          <button
-            onClick={() => selectForm('TABLETS')}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
-          >
-            <LayoutGrid className="w-4 h-4" />
-            Browse All 12 Dosage Forms
-          </button>
+          <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <p className="text-xs text-gray-600">
+              You opened <span className="font-bold text-black">{activeCategory}</span> by scanning its PharmaQR code.
+            </p>
+            <button
+              onClick={() => selectForm('TABLETS')}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
+            >
+              <LayoutGrid className="w-4 h-4" />
+              Browse All 12 Dosage Forms
+            </button>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
