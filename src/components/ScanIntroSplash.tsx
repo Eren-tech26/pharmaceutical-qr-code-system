@@ -9,8 +9,15 @@ interface ScanIntroSplashProps {
 }
 
 /**
+ * Intro image shown on the splash. Lives in `public/images` so Vite serves it
+ * as-is — swap the file (keep the same name) or change this path to rebrand.
+ */
+const INTRO_IMAGE = '/images/sveri-cobp-logo.png';
+const INTRO_IMAGE_ALT = 'SVERI COBP';
+
+/**
  * Full-screen white intro shown immediately after a QR code is scanned.
- * Displays the PharmaQR logo/brand on a clean white background, then
+ * Displays the institution logo on a clean white background, then
  * transitions into the dosage form information.
  */
 export const ScanIntroSplash: React.FC<ScanIntroSplashProps> = ({
@@ -53,16 +60,15 @@ export const ScanIntroSplash: React.FC<ScanIntroSplashProps> = ({
           mounted ? 'scale-100 translate-y-0' : 'scale-90 translate-y-3'
         }`}
       >
-        <div className="relative">
-          {/* Subtle green glow behind logo */}
-          <div
-            className="absolute inset-0 rounded-[32px] blur-2xl opacity-30"
-            style={{ background: 'radial-gradient(circle, #22c55e 0%, transparent 70%)' }}
-          />
+        {/* Institution logo uploaded to the repo (public/images), on a transparent background */}
+        <div className="relative flex items-center justify-center">
           <img
-            src="/logo.svg"
-            alt="PharmaQR"
-            className="relative w-32 h-32 sm:w-40 sm:h-40 drop-shadow-xl"
+            src={INTRO_IMAGE}
+            alt={INTRO_IMAGE_ALT}
+            width={1000}
+            height={1091}
+            className="h-auto w-44 sm:w-60 max-w-full object-contain select-none"
+            draggable={false}
           />
         </div>
 
