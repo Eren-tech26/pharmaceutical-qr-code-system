@@ -1,6 +1,7 @@
 import React from 'react';
 import { BadgeCheck, Cake, Code, GraduationCap, Hash } from 'lucide-react';
 import { DEVELOPER_INFO } from '../data/developerInfo';
+import { Reveal } from './Reveal';
 
 const DETAIL_ITEMS = [
   {
@@ -14,8 +15,8 @@ const DETAIL_ITEMS = [
 ];
 
 /**
- * Credit card for the developer of PharmaQR. Rendered at the bottom of the
- * guide so anyone reviewing or using the app can see who built it.
+ * Glass credit card for the developer of PharmaQR. Rendered at the bottom of
+ * the guide so anyone reviewing or using the app can see who built it.
  */
 export const DeveloperInfoCard: React.FC = () => {
   const initials = DEVELOPER_INFO.name
@@ -25,71 +26,75 @@ export const DeveloperInfoCard: React.FC = () => {
     .join('');
 
   return (
-    <section
-      id="developer"
-      aria-label="Developer information"
-      className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
-    >
-      {/* Header strip */}
-      <div className="border-b-2 border-green-600 px-5 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <BadgeCheck className="w-4 h-4 text-green-700" />
-          <h3 className="text-xs font-black uppercase tracking-wider text-black">
-            Developer Information
-          </h3>
-        </div>
-        <span className="px-2.5 py-1 bg-green-600 text-white rounded-lg text-[11px] font-bold uppercase tracking-wide">
-          Pharmacy Student Project
-        </span>
-      </div>
-
-      <div className="p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center gap-6">
-        {/* Name block */}
-        <div className="flex items-center gap-4 lg:w-80 shrink-0">
-          <div className="w-16 h-16 rounded-2xl bg-green-600 text-white flex items-center justify-center text-xl font-black shadow-sm shrink-0">
-            {initials}
+    <Reveal>
+      <section
+        id="developer"
+        aria-label="Developer information"
+        className="glass rounded-[1.75rem] overflow-hidden scroll-mt-24"
+      >
+        {/* Header strip */}
+        <div className="px-5 sm:px-7 py-4 border-b border-white/70 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="p-1.5 rounded-lg bg-gradient-to-br from-emerald-500/15 to-teal-500/10 text-emerald-700">
+              <BadgeCheck className="w-4 h-4" />
+            </span>
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.14em] text-slate-900">
+              Developer Information
+            </h3>
           </div>
-          <div className="min-w-0">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-green-700">
-              Developed by
-            </p>
-            <h4 className="text-lg font-black text-black tracking-tight leading-tight break-words">
-              {DEVELOPER_INFO.name}
-            </h4>
-            <p className="text-[11px] text-gray-600 mt-0.5 font-medium">
-              {DEVELOPER_INFO.footerCredit}
-            </p>
-          </div>
+          <span className="px-3 py-1 bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-full text-[10px] font-semibold uppercase tracking-[0.12em] shadow-md shadow-emerald-500/25">
+            Pharmacy Student Project
+          </span>
         </div>
 
-        {/* Details grid */}
-        <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {DETAIL_ITEMS.map(({ icon: Icon, label, value }) => (
-            <div
-              key={label}
-              className="flex items-center gap-3 border border-gray-200 rounded-xl px-3.5 py-3 bg-white"
-            >
-              <div className="p-2 rounded-lg bg-green-50 text-green-700 shrink-0">
-                <Icon className="w-4 h-4" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">
-                  {label}
-                </p>
-                <p className="text-xs font-black text-black truncate">{value}</p>
-              </div>
+        <div className="p-5 sm:p-7 flex flex-col lg:flex-row lg:items-center gap-6">
+          {/* Name block */}
+          <div className="flex items-center gap-4 lg:w-80 shrink-0">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center text-xl font-bold shadow-lg shadow-emerald-500/30 shrink-0 transition-transform duration-700 [transition-timing-function:var(--ease-spring)] hover:scale-105 hover:-rotate-3">
+              {initials}
             </div>
-          ))}
-        </div>
-      </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-700">
+                Developed by
+              </p>
+              <h4 className="text-lg font-bold text-slate-900 tracking-tight leading-tight break-words">
+                {DEVELOPER_INFO.name}
+              </h4>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-medium">
+                {DEVELOPER_INFO.footerCredit}
+              </p>
+            </div>
+          </div>
 
-      {/* Note */}
-      <div className="px-5 sm:px-6 pb-5 sm:pb-6">
-        <p className="text-xs text-gray-700 leading-relaxed border-l-2 border-green-600 pl-3">
-          {DEVELOPER_INFO.note}
-        </p>
-      </div>
-    </section>
+          {/* Details grid */}
+          <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {DETAIL_ITEMS.map(({ icon: Icon, label, value }) => (
+              <div
+                key={label}
+                className="flex items-center gap-3 glass-inset rounded-2xl px-3.5 py-3 transition-all duration-500 [transition-timing-function:var(--ease-spring)] hover:bg-white/80 hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-500/15 to-teal-500/10 text-emerald-700 shrink-0">
+                  <Icon className="w-4 h-4" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
+                    {label}
+                  </p>
+                  <p className="text-xs font-bold text-slate-900 truncate">{value}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Note */}
+        <div className="px-5 sm:px-7 pb-6 sm:pb-7">
+          <p className="text-xs text-slate-600 leading-relaxed border-l-2 border-emerald-500/60 pl-4">
+            {DEVELOPER_INFO.note}
+          </p>
+        </div>
+      </section>
+    </Reveal>
   );
 };
 
